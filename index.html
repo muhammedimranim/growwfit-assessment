@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Growwfit — Client Intake Form</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0d0d0d;
+    --white: #f9f7f4;
+    --green: #b5ff4d;
+    --green-dark: #94d93b;
+    --gray: #1e1e1e;
+    --gray-mid: #2e2e2e;
+    --gray-light: #4a4a4a;
+    --text-dim: #888;
+    --radius: 12px;
+  }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--black);
+    border-bottom: 1px solid #222;
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.2rem;
+    letter-spacing: -0.02em;
+  }
+
+  .logo span { color: var(--green); }
+
+  .progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .progress-label {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  .progress-bar {
+    width: 120px;
+    height: 3px;
+    background: #222;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 60px 32px 48px;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .hero-tag {
+    display: inline-block;
+    background: var(--green);
+    color: var(--black);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--green);
+  }
+
+  .hero p {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    max-width: 480px;
+  }
+
+  /* FORM */
+  .form-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 32px 80px;
+  }
+
+  /* SECTION */
+  .section {
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .section.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 6px;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    line-height: 1.2;
+  }
+
+  /* FIELD */
+  .field {
+    margin-bottom: 24px;
+  }
+
+  label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #ccc;
+    margin-bottom: 8px;
+    letter-spacing: 0.01em;
+  }
+
+  label .req { color: var(--green); margin-left: 2px; }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="date"],
+  input[type="email"],
+  textarea,
+  select {
+    width: 100%;
+    background: var(--gray);
+    border: 1px solid #2a2a2a;
+    border-radius: var(--radius);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    padding: 14px 16px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(181, 255, 77, 0.1);
+  }
+
+  textarea { resize: vertical; min-height: 90px; }
+
+  select option { background: var(--gray); }
+
+  /* TWO COL */
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  /* CHIPS */
+  .chip-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--gray);
+    border: 1px solid #2a2a2a;
+    border-radius: 100px;
+    padding: 9px 16px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: #bbb;
+    user-select: none;
+  }
+
+  .chip:hover { border-color: #444; color: var(--white); }
+
+  .chip.selected {
+    background: rgba(181, 255, 77, 0.12);
+    border-color: var(--green);
+    color: var(--green);
+    font-weight: 500;
+  }
+
+  .chip input { display: none; }
+
+  /* SCALE */
+  .scale-wrap {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .scale-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+
+  .scale-btn {
+    flex: 1;
+    height: 44px;
+    background: var(--gray);
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    color: #888;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .scale-btn:hover { border-color: #444; color: var(--white); }
+  .scale-btn.selected {
+    background: rgba(181, 255, 77, 0.12);
+    border-color: var(--green);
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  /* NAV */
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid #1a1a1a;
+  }
+
+  .btn-back {
+    background: none;
+    border: 1px solid #2a2a2a;
+    color: var(--text-dim);
+    padding: 12px 24px;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.15s;
+  }
+
+  .btn-back:hover { border-color: #444; color: var(--white); }
+
+  .btn-next {
+    background: var(--green);
+    border: none;
+    color: var(--black);
+    padding: 14px 32px;
+    border-radius: 100px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Syne', sans-serif;
+    letter-spacing: 0.02em;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-next:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-next:active { transform: translateY(0); }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid #1e1e1e;
+    margin: 24px 0;
+  }
+
+  /* HINT */
+  .hint {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 6px;
+  }
+
+  /* RESULT */
+  #result-section {
+    display: none;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 32px 80px;
+    animation: fadeIn 0.4s ease;
+  }
+
+  .result-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .result-badge {
+    width: 52px;
+    height: 52px;
+    background: var(--green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+
+  .result-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.6rem;
+    letter-spacing: -0.02em;
+  }
+
+  .result-header p {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+
+  .summary-card {
+    background: var(--gray);
+    border: 1px solid #2a2a2a;
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+
+  .summary-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 14px;
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid #222;
+    font-size: 0.85rem;
+    gap: 16px;
+  }
+
+  .summary-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .summary-row .key { color: var(--text-dim); flex-shrink: 0; }
+  .summary-row .val { color: var(--white); text-align: right; font-weight: 400; }
+
+  .ai-box {
+    background: linear-gradient(135deg, rgba(181,255,77,0.08), rgba(181,255,77,0.02));
+    border: 1px solid rgba(181,255,77,0.2);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+
+  .ai-box h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .ai-content {
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: #ccc;
+    white-space: pre-wrap;
+  }
+
+  .loading-dots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    padding: 8px 0;
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 1.2s infinite;
+  }
+
+  .dot:nth-child(2) { animation-delay: 0.2s; }
+  .dot:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes pulse {
+    0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+    40% { opacity: 1; transform: scale(1); }
+  }
+
+  .btn-restart {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 1px solid #2a2a2a;
+    color: var(--text-dim);
+    padding: 12px 24px;
+    border-radius: 100px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.15s;
+    margin-top: 8px;
+  }
+
+  .btn-restart:hover { border-color: #444; color: var(--white); }
+
+  /* ERROR */
+  .error-msg {
+    background: rgba(255, 80, 80, 0.1);
+    border: 1px solid rgba(255,80,80,0.3);
+    color: #ff8080;
+    font-size: 0.78rem;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-top: 8px;
+    display: none;
+  }
+
+  #form-error { display: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 520px) {
+    .header { padding: 16px 20px; }
+    .hero { padding: 40px 20px 32px; }
+    .form-wrap { padding: 0 20px 60px; }
+    #result-section { padding: 0 20px 60px; }
+    .row { grid-template-columns: 1fr; }
+    .scale-btn { height: 40px; font-size: 0.78rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">Groww<span>fit</span></div>
+  <div class="progress-wrap">
+    <span class="progress-label" id="prog-label">Step 1 of 4</span>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+  </div>
+</header>
+
+<div class="hero" id="hero-block">
+  <div class="hero-tag">Client Intake</div>
+  <h1>Let's build your <em>perfect</em> plan.</h1>
+  <p>Takes about 3 minutes. Your answers help us design a workout program tailored specifically to you — your body, your goals, your life.</p>
+</div>
+
+<!-- FORM SECTIONS -->
+<div class="form-wrap" id="form-wrap">
+
+  <!-- SECTION 1: About You -->
+  <div class="section active" id="sec-1">
+    <div class="section-label">Section 1 of 4</div>
+    <div class="section-title">About You</div>
+
+    <div class="row">
+      <div class="field">
+        <label>Full Name <span class="req">*</span></label>
+        <input type="text" id="name" placeholder="Your name">
+      </div>
+      <div class="field">
+        <label>Date of Birth <span class="req">*</span></label>
+        <input type="date" id="dob">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>Gender <span class="req">*</span></label>
+        <select id="gender">
+          <option value="">Select</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+          <option>Prefer not to say</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Contact Number</label>
+        <input type="tel" id="phone" placeholder="+91 00000 00000">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>Height (cm) <span class="req">*</span></label>
+        <input type="number" id="height" placeholder="e.g. 170">
+      </div>
+      <div class="field">
+        <label>Weight (kg) <span class="req">*</span></label>
+        <input type="number" id="weight" placeholder="e.g. 72">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Occupation Type <span class="req">*</span></label>
+      <div class="chip-group" id="occupation">
+        <label class="chip"><input type="radio" name="occ" value="Low intensity (desk job / sedentary)"> Low intensity (desk job)</label>
+        <label class="chip"><input type="radio" name="occ" value="Moderately active (on feet often)"> Moderately active</label>
+        <label class="chip"><input type="radio" name="occ" value="Physically demanding (labour / field work)"> Physically demanding</label>
+      </div>
+    </div>
+
+    <div class="error-msg" id="err-1">Please fill all required fields.</div>
+    <div class="nav">
+      <div></div>
+      <button class="btn-next" onclick="goNext(1)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- SECTION 2: Health -->
+  <div class="section" id="sec-2">
+    <div class="section-label">Section 2 of 4</div>
+    <div class="section-title">Health & Lifestyle</div>
+
+    <div class="field">
+      <label>Any medical conditions or injuries? <span class="req">*</span></label>
+      <textarea id="health" placeholder="e.g. Lower back pain, diabetes, knee surgery in 2022 — or type 'None'"></textarea>
+    </div>
+
+    <div class="field">
+      <label>Any medications you're currently taking?</label>
+      <input type="text" id="meds" placeholder="Type 'None' if not applicable">
+    </div>
+
+    <hr class="divider">
+
+    <div class="field">
+      <label>Average sleep per night <span class="req">*</span></label>
+      <div class="chip-group" id="sleep">
+        <label class="chip"><input type="radio" name="slp" value="Less than 6 hours"> &lt;6 hrs</label>
+        <label class="chip"><input type="radio" name="slp" value="6–7 hours"> 6–7 hrs</label>
+        <label class="chip"><input type="radio" name="slp" value="7–8 hours"> 7–8 hrs</label>
+        <label class="chip"><input type="radio" name="slp" value="8+ hours"> 8+ hrs</label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Daily stress level <span class="req">*</span></label>
+      <div class="scale-labels">
+        <span>No stress</span>
+        <span>Extremely high</span>
+      </div>
+      <div class="scale-wrap" id="stress">
+        <button class="scale-btn" onclick="selectScale('stress',this,'1')">1</button>
+        <button class="scale-btn" onclick="selectScale('stress',this,'2')">2</button>
+        <button class="scale-btn" onclick="selectScale('stress',this,'3')">3</button>
+        <button class="scale-btn" onclick="selectScale('stress',this,'4')">4</button>
+        <button class="scale-btn" onclick="selectScale('stress',this,'5')">5</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Do you smoke or drink alcohol?</label>
+      <div class="chip-group" id="habits">
+        <label class="chip"><input type="checkbox" name="hab" value="Smoker"> I smoke</label>
+        <label class="chip"><input type="checkbox" name="hab" value="Drinks alcohol"> I drink alcohol</label>
+        <label class="chip" id="neither-chip" onclick="toggleNeither()"><input type="checkbox" name="hab" value="Neither"> Neither</label>
+      </div>
+    </div>
+
+    <div class="error-msg" id="err-2">Please fill all required fields.</div>
+    <div class="nav">
+      <button class="btn-back" onclick="goBack(2)">← Back</button>
+      <button class="btn-next" onclick="goNext(2)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- SECTION 3: Fitness -->
+  <div class="section" id="sec-3">
+    <div class="section-label">Section 3 of 4</div>
+    <div class="section-title">Fitness Background</div>
+
+    <div class="field">
+      <label>Have you trained before? <span class="req">*</span></label>
+      <div class="chip-group" id="trained">
+        <label class="chip"><input type="radio" name="trn" value="Never trained before"> Never trained</label>
+        <label class="chip"><input type="radio" name="trn" value="Trained before but stopped"> Trained before</label>
+        <label class="chip"><input type="radio" name="trn" value="Currently training"> Currently training</label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Current fitness level <span class="req">*</span></label>
+      <div class="chip-group" id="fitness-level">
+        <label class="chip"><input type="radio" name="fit" value="Sedentary"> Sedentary</label>
+        <label class="chip"><input type="radio" name="fit" value="Beginner"> Beginner</label>
+        <label class="chip"><input type="radio" name="fit" value="Intermediate"> Intermediate</label>
+        <label class="chip"><input type="radio" name="fit" value="Advanced"> Advanced</label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Workout styles you enjoy <span class="req">*</span></label>
+      <p class="hint">Select all that apply</p>
+      <div class="chip-group" id="pref-workouts">
+        <label class="chip"><input type="checkbox" name="wtype" value="Strength training"> 💪 Strength</label>
+        <label class="chip"><input type="checkbox" name="wtype" value="Cardio"> 🏃 Cardio</label>
+        <label class="chip"><input type="checkbox" name="wtype" value="Yoga / Pilates"> 🧘 Yoga / Pilates</label>
+        <label class="chip"><input type="checkbox" name="wtype" value="HIIT"> ⚡ HIIT</label>
+        <label class="chip"><input type="checkbox" name="wtype" value="Functional training"> 🔄 Functional</label>
+        <label class="chip"><input type="checkbox" name="wtype" value="Zumba / Dance"> 💃 Dance</label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Days available per week <span class="req">*</span></label>
+      <div class="chip-group" id="days">
+        <label class="chip"><input type="radio" name="day" value="2 days"> 2</label>
+        <label class="chip"><input type="radio" name="day" value="3 days"> 3</label>
+        <label class="chip"><input type="radio" name="day" value="4 days"> 4</label>
+        <label class="chip"><input type="radio" name="day" value="5 days"> 5</label>
+        <label class="chip"><input type="radio" name="day" value="6 days"> 6</label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Anything you want to avoid?</label>
+      <input type="text" id="avoid" placeholder="e.g. Running, burpees, heavy squats">
+    </div>
+
+    <div class="error-msg" id="err-3">Please fill all required fields.</div>
+    <div class="nav">
+      <button class="btn-back" onclick="goBack(3)">← Back</button>
+      <button class="btn-next" onclick="goNext(3)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- SECTION 4: Goals -->
+  <div class="section" id="sec-4">
+    <div class="section-label">Section 4 of 4</div>
+    <div class="section-title">Your Goals</div>
+
+    <div class="field">
+      <label>Primary fitness goals <span class="req">*</span></label>
+      <p class="hint">Select all that apply</p>
+      <div class="chip-group" id="goals">
+        <label class="chip"><input type="checkbox" name="goal" value="Lose weight / fat loss"> 🔥 Lose weight</label>
+        <label class="chip"><input type="checkbox" name="goal" value="Build muscle / gain mass"> 💪 Build muscle</label>
+        <label class="chip"><input type="checkbox" name="goal" value="Improve strength"> 🏋️ Strength</label>
+        <label class="chip"><input type="checkbox" name="goal" value="Improve endurance"> 🫀 Endurance</label>
+        <label class="chip"><input type="checkbox" name="goal" value="Improve flexibility & mobility"> 🤸 Flexibility</label>
+        <label class="chip"><input type="checkbox" name="goal" value="Improve overall health & wellness"> ✨ Overall health</label>
+        <label class="chip"><input type="checkbox" name="goal" value="Look and feel better"> 🌟 Look & feel better</label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>What motivates you to train? <span class="req">*</span></label>
+      <textarea id="motivation" placeholder="e.g. I want to feel more energetic, keep up with my kids, or prepare for a wedding..."></textarea>
+    </div>
+
+    <div class="field">
+      <label>Anything specific you want to tell your trainer?</label>
+      <textarea id="extra" placeholder="Any preferences, concerns, or context we should know..."></textarea>
+    </div>
+
+    <div class="error-msg" id="err-4">Please fill all required fields.</div>
+    <div class="nav">
+      <button class="btn-back" onclick="goBack(4)">← Back</button>
+      <button class="btn-next" onclick="submitForm()">Submit & See Summary ✓</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- RESULT -->
+<div id="result-section">
+  <div class="result-header">
+    <div class="result-badge">✓</div>
+    <div>
+      <h2 id="result-name">Thanks!</h2>
+      <p>Here's a summary of what you shared. Your trainer will design your plan based on this.</p>
+    </div>
+  </div>
+
+  <div class="summary-card">
+    <h3>👤 Personal</h3>
+    <div id="summary-personal"></div>
+  </div>
+
+  <div class="summary-card">
+    <h3>🏥 Health & Lifestyle</h3>
+    <div id="summary-health"></div>
+  </div>
+
+  <div class="summary-card">
+    <h3>🏋️ Fitness</h3>
+    <div id="summary-fitness"></div>
+  </div>
+
+  <div class="summary-card">
+    <h3>🎯 Goals</h3>
+    <div id="summary-goals"></div>
+  </div>
+
+  <div class="ai-box">
+    <h3>⚡ Trainer Notes Preview</h3>
+    <div class="ai-content" id="ai-output">
+      <div class="loading-dots">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-restart" onclick="restart()">↩ Fill again</button>
+</div>
+
+<script>
+  let scaleValues = { stress: null };
+  let currentSection = 1;
+  const totalSections = 4;
+
+  function updateProgress(sec) {
+    const pct = ((sec - 1) / totalSections) * 100;
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-label').textContent = `Step ${sec} of ${totalSections}`;
+  }
+
+  function selectScale(id, btn, val) {
+    scaleValues[id] = val;
+    document.querySelectorAll(`#${id} .scale-btn`).forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  }
+
+  // Auto-chip toggle for radio/checkbox groups
+  document.querySelectorAll('.chip input').forEach(inp => {
+    inp.addEventListener('change', () => {
+      if (inp.type === 'radio') {
+        document.querySelectorAll(`input[name="${inp.name}"]`).forEach(r => {
+          r.closest('.chip').classList.remove('selected');
+        });
+      }
+      inp.closest('.chip').classList.toggle('selected', inp.checked);
+    });
+  });
+
+  function toggleNeither() {
+    const nc = document.getElementById('neither-chip');
+    const isSelected = nc.classList.contains('selected');
+    if (!isSelected) {
+      document.querySelectorAll('input[name="hab"]').forEach(c => {
+        c.checked = false;
+        c.closest('.chip').classList.remove('selected');
+      });
+    }
+  }
+
+  function getChecked(name) {
+    return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(i => i.value).join(', ') || '—';
+  }
+
+  function getRadio(name) {
+    const el = document.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.value : null;
+  }
+
+  function showError(id, show) {
+    document.getElementById(id).style.display = show ? 'block' : 'none';
+  }
+
+  function goNext(sec) {
+    let valid = true;
+
+    if (sec === 1) {
+      const name = document.getElementById('name').value.trim();
+      const dob = document.getElementById('dob').value;
+      const gender = document.getElementById('gender').value;
+      const height = document.getElementById('height').value;
+      const weight = document.getElementById('weight').value;
+      const occ = getRadio('occ');
+      if (!name || !dob || !gender || !height || !weight || !occ) valid = false;
+    }
+
+    if (sec === 2) {
+      const health = document.getElementById('health').value.trim();
+      const sleep = getRadio('slp');
+      const stress = scaleValues['stress'];
+      if (!health || !sleep || !stress) valid = false;
+    }
+
+    if (sec === 3) {
+      const trained = getRadio('trn');
+      const level = getRadio('fit');
+      const days = getRadio('day');
+      const prefs = [...document.querySelectorAll('input[name="wtype"]:checked')];
+      if (!trained || !level || !days || prefs.length === 0) valid = false;
+    }
+
+    showError(`err-${sec}`, !valid);
+    if (!valid) return;
+
+    document.getElementById(`sec-${sec}`).classList.remove('active');
+    document.getElementById(`sec-${sec + 1}`).classList.add('active');
+    currentSection = sec + 1;
+    updateProgress(currentSection);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function goBack(sec) {
+    document.getElementById(`sec-${sec}`).classList.remove('active');
+    document.getElementById(`sec-${sec - 1}`).classList.add('active');
+    currentSection = sec - 1;
+    updateProgress(currentSection);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function submitForm() {
+    const goals = [...document.querySelectorAll('input[name="goal"]:checked')];
+    const motivation = document.getElementById('motivation').value.trim();
+    if (goals.length === 0 || !motivation) {
+      showError('err-4', true); return;
+    }
+    showError('err-4', false);
+
+    // Collect data
+    const data = {
+      name: document.getElementById('name').value.trim(),
+      dob: document.getElementById('dob').value,
+      gender: document.getElementById('gender').value,
+      phone: document.getElementById('phone').value,
+      height: document.getElementById('height').value,
+      weight: document.getElementById('weight').value,
+      occupation: getRadio('occ'),
+      health: document.getElementById('health').value.trim(),
+      meds: document.getElementById('meds').value.trim() || 'None',
+      sleep: getRadio('slp'),
+      stress: scaleValues['stress'],
+      habits: getChecked('hab'),
+      trained: getRadio('trn'),
+      fitnessLevel: getRadio('fit'),
+      workoutPrefs: getChecked('wtype'),
+      days: getRadio('day'),
+      avoid: document.getElementById('avoid').value.trim() || 'None',
+      goals: getChecked('goal'),
+      motivation: motivation,
+      extra: document.getElementById('extra').value.trim() || 'None',
+    };
+
+    // Age calculation
+    const age = data.dob ? Math.floor((new Date() - new Date(data.dob)) / (365.25 * 24 * 3600 * 1000)) : '—';
+    const bmi = data.height && data.weight ? (data.weight / ((data.height / 100) ** 2)).toFixed(1) : '—';
+
+    // Hide form, show result
+    document.getElementById('form-wrap').style.display = 'none';
+    document.getElementById('hero-block').style.display = 'none';
+    document.getElementById('result-section').style.display = 'block';
+    document.getElementById('prog-fill').style.width = '100%';
+    document.getElementById('prog-label').textContent = 'Complete ✓';
+    document.getElementById('result-name').textContent = `Thanks, ${data.name.split(' ')[0]}!`;
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Populate summary
+    document.getElementById('summary-personal').innerHTML = row('Name', data.name) + row('Age', age + ' years') + row('Gender', data.gender) + row('Height / Weight', `${data.height} cm / ${data.weight} kg`) + row('BMI', bmi) + row('Occupation', data.occupation);
+    document.getElementById('summary-health').innerHTML = row('Medical / Injuries', data.health) + row('Medications', data.meds) + row('Sleep', data.sleep) + row('Stress Level', data.stress + ' / 5') + row('Habits', data.habits || 'None mentioned');
+    document.getElementById('summary-fitness').innerHTML = row('Training Background', data.trained) + row('Fitness Level', data.fitnessLevel) + row('Preferred Workouts', data.workoutPrefs) + row('Days per Week', data.days) + row('Exercises to Avoid', data.avoid);
+    document.getElementById('summary-goals').innerHTML = row('Goals', data.goals) + row('Motivation', data.motivation) + row('Additional Notes', data.extra);
+
+    // Send to Google Sheets
+    sendToSheets(data, bmi);
+
+    // AI generation
+    generatePlan(data, age, bmi);
+  }
+
+  function row(key, val) {
+    return `<div class="summary-row"><span class="key">${key}</span><span class="val">${val || '—'}</span></div>`;
+  }
+
+  async function sendToSheets(data, bmi) {
+    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxo5sMB9G6MaWauHNPQpawkumGitIPySsT7TRPm_ZhnDAFvH9QTtlnlfuWnYSbsTTf4/exec';
+    try {
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, bmi })
+      });
+    } catch (e) {
+      console.error('Sheet sync failed:', e);
+    }
+  }
+
+  async function generatePlan(data, age, bmi) {
+    const prompt = `You are an expert personal trainer at Growwfit Wellness. Based on this client intake, write a brief, practical trainer note (5–8 sentences) covering: (1) key observations about their profile, (2) 2–3 training focus areas based on their goals and health, (3) one specific caution or adaptation to keep in mind. Be direct, professional, and specific — no fluff.
+
+Client Profile:
+- Name: ${data.name}, Age: ${age}, Gender: ${data.gender}
+- Height: ${data.height}cm, Weight: ${data.weight}kg, BMI: ${bmi}
+- Occupation: ${data.occupation}
+- Health/Injuries: ${data.health}
+- Medications: ${data.meds}
+- Sleep: ${data.sleep}, Stress: ${data.stress}/5, Habits: ${data.habits}
+- Training background: ${data.trained}, Level: ${data.fitnessLevel}
+- Preferred workouts: ${data.workoutPrefs}
+- Available days: ${data.days}
+- Exercises to avoid: ${data.avoid}
+- Goals: ${data.goals}
+- Motivation: ${data.motivation}
+- Extra notes: ${data.extra}`;
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 1000,
+          messages: [{ role: 'user', content: prompt }]
+        })
+      });
+      const json = await res.json();
+      const text = json.content?.[0]?.text || 'Could not generate notes.';
+      document.getElementById('ai-output').textContent = text;
+    } catch (e) {
+      document.getElementById('ai-output').textContent = 'Trainer notes could not be generated at this time. Your trainer will review the summary above and be in touch.';
+    }
+  }
+
+  function restart() {
+    location.reload();
+  }
+
+  updateProgress(1);
+</script>
+</body>
+</html>
